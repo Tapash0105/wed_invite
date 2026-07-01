@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Wedding Invitation</title>
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Georgia, serif;
+}
+
+body{
+  min-height:100vh;
+  color:white;
+  overflow-x:hidden;
+  background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.65)),
+    url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  transition:background-image 1.2s ease-in-out;
+}
+
+.overlay{
+  min-height:100vh;
+  background:rgba(0,0,0,.35);
+}
+
+/* Envelope */
+.envelope-screen{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+}
+
+.envelope{
+  width:280px;
+  height:180px;
+  background:#ff9ecb;
+  border-radius:12px;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  transform-style:preserve-3d;
+  transition:.8s;
+}
+
+.envelope:before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  border-left:140px solid transparent;
+  border-right:140px solid transparent;
+  border-bottom:90px solid #ffd6e8;
+  transform-origin:top;
+  transition:.8s;
+}
+
+.envelope.open:before{
+  transform:rotateX(180deg);
+}
+
+.letter{
+  position:absolute;
+  width:230px;
+  height:130px;
+  background:white;
+  color:#c2185b;
+  top:25px;
+  left:25px;
+  border-radius:10px;
+  padding:25px;
+  transform:translateY(40px);
+  opacity:0;
+  transition:.8s;
+}
+
+.envelope.open .letter{
+  transform:translateY(-90px);
+  opacity:1;
+}
+
+.start-btn{
+  margin-top:40px;
+  padding:14px 32px;
+  border:none;
+  border-radius:30px;
+  background:#ff5fa2;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  display:none;
+}
+
+/* Main */
+.main{
+  display:none;
+}
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+}
+
+.hero h1{
+  font-size:55px;
+  color:#ffd6e8;
+  text-shadow:0 0 25px black;
+}
+
+.hero p{
+  margin-top:20px;
+  font-size:22px;
+}
+
+.music-btn{
+  position:fixed;
+  right:20px;
+  top:20px;
+  z-index:99;
+  border:none;
+  border-radius:50%;
+  width:55px;
+  height:55px;
+  font-size:22px;
+  cursor:pointer;
+  background:#ff8bbd;
+  color:white;
+}
+
+/* Secret Boxes */
+.secret-section{
+  max-width:1100px;
+  margin:auto;
+  padding:70px 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+}
+
+.secret-box{
+  min-height:210px;
+  background:rgba(255,255,255,.14);
+  backdrop-filter:blur(14px);
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:25px;
+  padding:30px;
+  text-align:center;
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transition:.5s;
+  box-shadow:0 20px 50px rgba(0,0,0,.45);
+}
+
+.secret-box:hover{
+  transform:rotateY(8deg) scale(1.05);
+}
+
+.secret-box h2{
+  color:#ffe1ef;
+  margin-bottom:20px;
+}
+
+.lock{
+  font-size:45px;
+}
+
+.hidden-detail{
+  display:none;
+  font-size:18px;
+  line-height:1.6;
+  animation:fade .8s;
+}
+
+.secret-box.revealed .lock{
+  display:none;
+}
+
+.secret-box.revealed .hidden-detail{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* Countdown */
+.countdown{
+  text-align:center;
+  padding:70px 20px;
+}
+
+.timer{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+
+.time-box{
+  width:120px;
+  padding:25px;
+  border-radius:20px;
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+}
+
+.time-box span{
+  font-size:36px;
+  display:block;
+  color:#ffd6e8;
+}
+
+/* Gallery */
+.gallery{
+  padding:70px 20px;
+  text-align:center;
+}
+
+.gallery-grid{
+  max-width:1100px;
+  margin:30px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+}
+
+.gallery-grid img{
+  width:100%;
+  height:270px;
+  object-fit:cover;
+  border-radius:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.5);
+  transition:.4s;
+}
+
+.gallery-grid img:hover{
+  transform:scale(1.06);
+}
+
+/* RSVP */
+.rsvp{
+  max-width:600px;
+  margin:70px auto;
+  padding:30px;
+  background:rgba(255,255,255,.16);
+  backdrop-filter:blur(14px);
+  border-radius:25px;
+  text-align:center;
+}
+
+.rsvp input,
+.rsvp select,
+.rsvp textarea{
+  width:100%;
+  margin:12px 0;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  outline:none;
+}
+
+.rsvp button,
+.map-btn,
+.calendar-btn,
+.fire-btn{
+  padding:14px 28px;
+  margin-top:15px;
+  border:none;
+  border-radius:30px;
+  background:#ff5fa2;
+  color:white;
+  font-size:17px;
+  cursor:pointer;
+}
+
+/* Petals */
+.petal{
+  position:fixed;
+  top:-20px;
+  color:#ffb6d9;
+  font-size:22px;
+  animation:fall linear infinite;
+  z-index:10;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(105vh) rotate(360deg);
+  }
+}
+
+/* Fireworks */
+.firework{
+  position:fixed;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:white;
+  animation:boom 1s ease-out forwards;
+  z-index:999;
+}
+
+@keyframes boom{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
+}
+
+.footer{
+  text-align:center;
+  padding:50px 20px;
+}
+
+@media(max-width:600px){
+  .hero h1{
+    font-size:36px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<div class="overlay">
+
+  <section class="envelope-screen" id="envelopeScreen">
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+      <div class="letter">
+        You are invited to our wedding ❤️
+      </div>
+    </div>
+
+    <button class="start-btn" id="startBtn" onclick="startInvitation()">
+      Open Invitation 💌
+    </button>
+  </section>
+
+  <main class="main" id="main">
+
+    <section class="hero">
+      <div data-aos="zoom-in">
+        <h1>Tapash & Imaginary</h1>
+        <p>Two hearts. One beautiful forever.</p>
+      </div>
+    </section>
+
+    <section class="secret-section">
+
+      <div class="secret-box" onclick="reveal(this, 0)" data-aos="fade-up">
+        <h2>Our Story</h2>
+        <div class="lock">🔒</div>
+        <div class="hidden-detail">
+          From school memories to a forever promise ❤️
+        </div>
+      </div>
+
+      <div class="secret-box" onclick="reveal(this, 1)" data-aos="fade-up">
+        <h2>Wedding Date</h2>
+        <div class="lock">🔒</div>
+        <div class="hidden-detail">
+          📅 20 February 2027<br>
+          Saturday Evening
+        </div>
+      </div>
+
+      <div class="secret-box" onclick="reveal(this, 2)" data-aos="fade-up">
+        <h2>Wedding Time</h2>
+        <div class="lock">🔒</div>
+        <div class="hidden-detail">
+          ⏰ 7:30 PM onwards<br>
+          Dinner after ceremony
+        </div>
+      </div>
+
+      <div class="secret-box" onclick="reveal(this, 3)" data-aos="fade-up">
+        <h2>Venue</h2>
+        <div class="lock">🔒</div>
+        <div class="hidden-detail">
+          📍 Royal Garden Palace<br>
+          Keonjhar, Odisha
+        </div>
+      </div>
+
+      <div class="secret-box" onclick="reveal(this, 4)" data-aos="fade-up">
+        <h2>Dress Code</h2>
+        <div class="lock">🔒</div>
+        <div class="hidden-detail">
+          👗 Royal Ethnic<br>
+          Pink, Gold & White Theme
+        </div>
+      </div>
+
+      <div class="secret-box" onclick="reveal(this, 5)" data-aos="fade-up">
+        <h2>Blessings</h2>
+        <div class="lock">🔒</div>
+        <div class="hidden-detail">
+          Your presence is our biggest blessing 🙏
+        </div>
+      </div>
+
+    </section>
+
+    <section class="countdown" data-aos="zoom-in">
+      <h2>Countdown to Forever</h2>
+      <div class="timer">
+        <div class="time-box"><span id="days">00</span>Days</div>
+        <div class="time-box"><span id="hours">00</span>Hours</div>
+        <div class="time-box"><span id="minutes">00</span>Minutes</div>
+        <div class="time-box"><span id="seconds">00</span>Seconds</div>
+      </div>
+    </section>
+
+    <section class="gallery">
+      <h2 data-aos="fade-up">Beautiful Memories</h2>
+
+      <div class="gallery-grid">
+        <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=700&q=80">
+        <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=700&q=80">
+        <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=700&q=80">
+        <img data-aos="zoom-in" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=700&q=80">
+      </div>
+    </section>
+
+    <section class="rsvp" data-aos="fade-up">
+      <h2>RSVP</h2>
+
+      <input type="text" id="guestName" placeholder="Your Name">
+      <select id="guestStatus">
+        <option>I will attend</option>
+        <option>Sorry, I cannot attend</option>
+      </select>
+      <textarea id="guestMessage" placeholder="Your blessing/message"></textarea>
+
+      <button onclick="submitRSVP()">Submit RSVP</button>
+      <br>
+
+      <button class="map-btn" onclick="openMap()">Open Google Map 🗺️</button>
+      <button class="calendar-btn" onclick="addCalendar()">Add to Calendar 📅</button>
+      <button class="fire-btn" onclick="fireworks()">Final Surprise 🎆</button>
+    </section>
+
+    <section class="footer">
+      <h2>With love, we invite you ❤️</h2>
+      <p>Tapash & Imaginary</p>
+    </section>
+
+  </main>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+AOS.init();
+
+const backgrounds = [
+  "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1600&q=80"
+];
+
+function openEnvelope(){
+  document.getElementById("envelope").classList.add("open");
+  document.getElementById("startBtn").style.display = "block";
+}
+
+function startInvitation(){
+  document.getElementById("envelopeScreen").style.display = "none";
+  document.getElementById("main").style.display = "block";
+
+  gsap.from(".hero h1", {
+    y:80,
+    opacity:0,
+    duration:1.2
+  });
+
+  createPetals();
+}
+
+function reveal(box, index){
+  box.classList.add("revealed");
+
+  document.body.style.backgroundImage =
+    `linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.65)), url('${backgrounds[index]}')`;
+
+  gsap.from(box, {
+    rotateY:180,
+    duration:.8
+  });
+}
+
+function toggleMusic(){
+  const music = document.getElementById("music");
+
+  if(music.paused){
+    music.play();
+    document.querySelector(".music-btn").innerText = "🔇";
+  }else{
+    music.pause();
+    document.querySelector(".music-btn").innerText = "🎵";
+  }
+}
+
+function countdown(){
+  const weddingDate = new Date("Feb 20, 2027 19:30:00").getTime();
+  const now = new Date().getTime();
+  const gap = weddingDate - now;
+
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  document.getElementById("days").innerText = Math.floor(gap / day);
+  document.getElementById("hours").innerText = Math.floor((gap % day) / hour);
+  document.getElementById("minutes").innerText = Math.floor((gap % hour) / minute);
+  document.getElementById("seconds").innerText = Math.floor((gap % minute) / second);
+}
+
+setInterval(countdown, 1000);
+
+function openMap(){
+  window.open("https://www.google.com/maps/search/Royal+Garden+Palace+Keonjhar+Odisha", "_blank");
+}
+
+function addCalendar(){
+  const title = "Tapash and Imaginary Wedding";
+  const details = "Wedding ceremony and dinner";
+  const location = "Royal Garden Palace, Keonjhar, Odisha";
+
+  const start = "20270220T140000Z";
+  const end = "20270220T180000Z";
+
+  const url =
+    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+
+  window.open(url, "_blank");
+}
+
+function submitRSVP(){
+  const name = document.getElementById("guestName").value;
+  const status = document.getElementById("guestStatus").value;
+  const message = document.getElementById("guestMessage").value;
+
+  if(!name){
+    alert("Please enter your name");
+    return;
+  }
+
+  const whatsappMessage =
+    `RSVP from ${name}%0AStatus: ${status}%0AMessage: ${message}`;
+
+  window.open(`https://wa.me/919999999999?text=${whatsappMessage}`, "_blank");
+}
+
+function createPetals(){
+  setInterval(() => {
+    const petal = document.createElement("div");
+    petal.classList.add("petal");
+    petal.innerText = "🌸";
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(petal);
+
+    setTimeout(() => {
+      petal.remove();
+    }, 7000);
+  }, 400);
+}
+
+function fireworks(){
+  for(let i = 0; i < 80; i++){
+    const firework = document.createElement("div");
+    firework.classList.add("firework");
+
+    firework.style.left = "50%";
+    firework.style.top = "50%";
+
+    firework.style.setProperty("--x", `${Math.random() * 600 - 300}px`);
+    firework.style.setProperty("--y", `${Math.random() * 600 - 300}px`);
+
+    document.body.appendChild(firework);
+
+    setTimeout(() => {
+      firework.remove();
+    }, 1000);
+  }
+
+  alert("Thank you for blessing our forever journey ❤️");
+}
+</script>
+
+</body>
+</html>
