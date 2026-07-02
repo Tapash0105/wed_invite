@@ -344,7 +344,7 @@ body{
   <source src="Rab.mp3" type="audio/mp3">
 </audio>-->
 <audio id="music" autoplay loop>
-    <source src="Rab.mp3" type="audio/mpeg">
+    <source src="./Rab.mp3" type="audio/mpeg">
 </audio>
 
 <!--<button class="music-btn" onclick="toggleMusic()">🎵</button>-->
@@ -589,7 +589,7 @@ function createPetals(){
   setInterval(() => {
     const petal = document.createElement("div");
     petal.classList.add("petal");
-    petal.innerText = "🌸";
+    petal.innerText = "🌸❤️";
     petal.style.left = Math.random() * 100 + "vw";
     petal.style.animationDuration = Math.random() * 3 + 4 + "s";
     document.body.appendChild(petal);
